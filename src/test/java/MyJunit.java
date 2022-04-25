@@ -27,7 +27,7 @@ public class MyJunit {
         WebDriverManager.chromedriver().setup();
         System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver.exe");
         ChromeOptions option = new ChromeOptions();
-        option.addArguments("--headless");
+//        option.addArguments("--headless");
         option.setExperimentalOption("excludeSwitches", Arrays.asList("disable-popup-blocking", "enable-automation"));
         driver = new ChromeDriver(option);
         driver.manage().window().maximize();
@@ -198,8 +198,29 @@ public class MyJunit {
     @Test
     public void handleWebTable() {
         driver.get("https://demoqa.com/webtables");
+        List<WebElement> rows = driver.findElements(By.cssSelector(".rt-tr-group"));
+        System.out.println("Total Row Size: " + rows.size());
+        List<WebElement> columns = driver.findElements(By.cssSelector(".rt-th"));
+        System.out.println("Total Column Size: " + columns.size());
 
+        for (WebElement row : rows) {
+            String firstName = row.findElement(By.cssSelector(".rt-td:nth-child(1)")).getText();
+            String lastName = row.findElement(By.cssSelector(".rt-td:nth-child(2)")).getText();
+            String age = row.findElement(By.cssSelector(".rt-td:nth-child(3)")).getText();
+            String email = row.findElement(By.cssSelector(".rt-td:nth-child(4)")).getText();
+            String salary = row.findElement(By.cssSelector(".rt-td:nth-child(5)")).getText();
+            String dept = row.findElement(By.cssSelector(".rt-td:nth-child(6)")).getText();
+
+            System.out.println("First Name is: " + firstName);
+            System.out.println("Last Name is: " + lastName);
+            System.out.println("Age is: " + age);
+            System.out.println("Email address is: " + email);
+            System.out.println("Salary is: " + salary);
+            System.out.println("Department Name is: " + dept);
+            System.out.println("------------------");
+        }
     }
+
 
     @Test
     public void uploadImage() throws InterruptedException {
@@ -244,8 +265,8 @@ public class MyJunit {
     @Test
     public void takeScreenshot() throws IOException {
         driver.get("https://demoqa.com");
-        File fulllPageScreenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        FileUtils.copyFile(fulllPageScreenshot, new File("Screenshots/fullpage.png"));
+        File fullPageScreenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(fullPageScreenshot, new File("Screenshots/fullpage.png"));
     }
 
     @After
